@@ -1,0 +1,51 @@
+# =============================================================================
+# GITIGNORE - PLATAFORMA SAFER
+# =============================================================================
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.production
+.env.staging
+
+# Feature flags locais
+.feature-flags.local
+feature-flags.local.json
+
+# Logs
+*.log
+logs/
+
+# Build outputs
+bin/
+obj/
+dist/
+build/
+
+# Dependencies
+node_modules/
+packages/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Docker
+.dockerignore
+
+# Temporary files
+*.tmp
+*.temp
