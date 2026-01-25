@@ -1,4 +1,4 @@
-namespace api_gestao_pedidos
+namespace Order.API
 {
     public class WeatherForecast
     {

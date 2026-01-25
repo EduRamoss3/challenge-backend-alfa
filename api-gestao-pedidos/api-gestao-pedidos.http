@@ -1,6 +1,0 @@
-@api_gestao_pedidos_HostAddress = http://localhost:5063
-
-GET {{api_gestao_pedidos_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
