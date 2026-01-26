@@ -1,0 +1,43 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Order.Domain.Interfaces.Repositories;
+using Order.Domain.Interfaces.UnitOfWork;
+using Order.Infra.Context;
+
+namespace Order.Infra.UnitOfWork;
+
+public sealed class UnitOfWork : IUnitOfWork
+{
+    private readonly OrderDbContext _db;
+    private readonly ILogger<UnitOfWork> _logger;
+
+    public UnitOfWork(OrderDbContext db, IOrderRepository orders, ILogger<UnitOfWork> logger)
+    {
+        _db = db ?? throw new ArgumentNullException(nameof(db));
+        Orders = orders ?? throw new ArgumentNullException(nameof(orders));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    public IOrderRepository Orders { get; }
+
+    public async Task<int> CommitAsync(CancellationToken ct)
+    {
+        try
+        {
+            _logger.LogInformation("Committing changes (SaveChangesAsync).");
+            var affected = await _db.SaveChangesAsync(ct);
+            _logger.LogInformation("Commit succeeded. Rows affected: {RowsAffected}", affected);
+            return affected;
+        }
+        catch (OperationCanceledException ex)
+        {
+            _logger.LogWarning(ex, "Commit operation was cancelled.");
+            throw;
+        }
+        catch (DbUpdateException ex)
+        {
+            _logger.LogError(ex, "Commit failed due to DbUpdateException.");
+            throw;
+        }
+    }
+}
