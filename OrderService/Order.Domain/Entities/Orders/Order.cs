@@ -1,7 +1,7 @@
 ﻿using Order.Domain.Entities.Base;
 using Order.Domain.Enums.Orders;
 using Order.Domain.Exceptions;
-using Order.Domain.Records.Orders;
+using Order.Domain.ValueObjects.Orders;
 
 namespace Order.Domain.Entities.Orders
 {

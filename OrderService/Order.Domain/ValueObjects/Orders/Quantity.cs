@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Order.Domain.Records.Orders
+namespace Order.Domain.ValueObjects.Orders
 {
     public sealed record Quantity
     {
