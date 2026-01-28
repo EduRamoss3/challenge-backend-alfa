@@ -2,7 +2,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Order.Application.Dto.Orders.Add;
+using Order.Application.Dto.Orders.GetById;
 using Order.Application.Features.Orders.Add;
+using Order.Application.Features.Orders.GetById;
+using Order.Domain.Exceptions;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Order.API.Controllers
 {
@@ -25,6 +29,10 @@ namespace Order.API.Controllers
         /// Inventory validation happens asynchronously.
         /// </summary>
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Creates an order",
+            Description = "Returns the order id and status"
+        )]
         [ProducesResponseType(typeof(AddOrderResultDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -34,11 +42,19 @@ namespace Order.API.Controllers
             {
                 var result = await _mediator.Send(new AddOrderCommand(dto), ct);
 
-                // 201 + Location header + response body
                 return CreatedAtAction(
                     nameof(GetById),
                     new { id = result.OrderId, version = "1.0" },
                     result
+                );
+            }
+            catch (DomainValidationException ex)
+            {
+                _logger.LogError(ex, "Domain validation error.");
+                return Problem(
+                    title: "Validation error",
+                    detail: ex.Message,
+                    statusCode: StatusCodes.Status422UnprocessableEntity
                 );
             }
             catch (Exception ex)
@@ -53,10 +69,16 @@ namespace Order.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetById([FromRoute] Guid id)
+        [SwaggerOperation(
+            Summary = "Get order by id",
+            Description = "Returns the order details, including lines and stock validation failures (if any)."
+        )]
+        [SwaggerResponse(StatusCodes.Status200OK, "Order found.", typeof(OrderDetailsDto))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "Order not found.")]
+        public async Task<ActionResult<OrderDetailsDto>> GetById([FromRoute] Guid id, CancellationToken ct)
         {
-            return Ok(new { Id = id });
+            var result = await _mediator.Send(new GetOrderByIdQuery(id), ct);
+            return result is null ? NotFound() : Ok(result);
         }
     }
 }

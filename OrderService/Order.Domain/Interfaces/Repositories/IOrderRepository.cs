@@ -11,5 +11,6 @@ namespace Order.Domain.Interfaces.Repositories
     public interface IOrderRepository
     {
         Task AddAsync(Domain.Entities.Orders.Order order, CancellationToken ct);
+        Task<Domain.Entities.Orders.Order?> GetById(Guid orderId);
     }
 }
