@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Contracts.Events.Orders;
+using MassTransit;
+using MediatR;
 using Order.Application.Dto.Orders;
 using Order.Application.Dto.Orders.Add;
 using Order.Domain.Entities.Orders;
@@ -14,9 +16,12 @@ namespace Order.Application.Features.Orders.Add
     {
         private readonly IUnitOfWork _uow;
 
-        public AddOrderCommandHandler(IUnitOfWork uow)
+        private readonly IPublishEndpoint _publish;
+
+        public AddOrderCommandHandler(IUnitOfWork uow, IPublishEndpoint publish)
         {
             _uow = uow;
+            _publish = publish;
         }
 
         public async Task<AddOrderResultDto> Handle(AddOrderCommand request, CancellationToken ct)
@@ -31,6 +36,17 @@ namespace Order.Application.Features.Orders.Add
 
             await _uow.Orders.AddAsync(order, ct);
             await _uow.CommitAsync(ct);
+
+            await _publish.Publish(new OrderCreatedEvent
+            {
+                OrderId = order.Id,
+                Lines = lines.Select(x => new OrderCreatedLine
+                {
+                    Sku = x.Sku.Value,
+                    Quantity = x.Quantity.Value
+                }).ToList()
+            }, ct);
+
 
             return new AddOrderResultDto
             {
