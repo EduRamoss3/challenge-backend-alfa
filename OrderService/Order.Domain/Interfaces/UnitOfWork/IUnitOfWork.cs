@@ -10,6 +10,8 @@ namespace Order.Domain.Interfaces.UnitOfWork
     public interface IUnitOfWork
     {
         IOrderRepository Orders { get; }
+        IItemRepository Items { get; }
+
         Task<int> CommitAsync(CancellationToken ct);
     }
 }

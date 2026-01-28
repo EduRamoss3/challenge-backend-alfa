@@ -13,9 +13,8 @@ namespace Order.Domain.Entities.Orders
         public DateTime CreatedAt { get; private set; }
         public Status Status { get; private set; }
 
-        public IReadOnlyCollection<OrderLine> Lines => _lines.AsReadOnly();
-        public IReadOnlyCollection<StockFailure> StockFailures => _stockFailures.AsReadOnly();
-
+        public IReadOnlyCollection<OrderLine> Lines => _lines;
+        public IReadOnlyCollection<StockFailure> StockFailures => _stockFailures;
         #region Construtores
         public Order(OrderLine line) : this(new[] { line })
         {

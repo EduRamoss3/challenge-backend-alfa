@@ -8,6 +8,6 @@ namespace Order.Domain.Entities.Base
 {
     public abstract class Entity
     {
-        protected Guid Id { get; set; } = Guid.NewGuid(); 
+        public Guid Id { get; set; } = Guid.NewGuid(); 
     }
 }

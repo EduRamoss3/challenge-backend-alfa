@@ -11,14 +11,16 @@ public class UnitOfWork : IUnitOfWork
     protected readonly OrderDbContext _db;
     private readonly ILogger<UnitOfWork> _logger;
 
-    public UnitOfWork(OrderDbContext db, IOrderRepository orders, ILogger<UnitOfWork> logger)
+    public UnitOfWork(OrderDbContext db, IOrderRepository orders, ILogger<UnitOfWork> logger, IItemRepository items)
     {
         _db = db ?? throw new ArgumentNullException(nameof(db));
-        Orders = orders ?? throw new ArgumentNullException(nameof(orders));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        Orders = orders ?? throw new ArgumentNullException(nameof(orders));
+        Items = items;
     }
 
     public IOrderRepository Orders { get; }
+    public IItemRepository  Items { get; }
 
     public async Task<int> CommitAsync(CancellationToken ct)
     {

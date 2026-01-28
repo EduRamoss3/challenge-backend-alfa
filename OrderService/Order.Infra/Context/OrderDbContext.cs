@@ -1,28 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Order.Domain.Entities.Orders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Order.Infra.Context
 {
-    public class OrderDbContext : DbContext
+    public sealed class OrderDbContext : DbContext
     {
-        public OrderDbContext(DbContextOptions options) : base(options)
-        {
-        }
-        public DbSet<Domain.Entities.Orders.Order> Orders { get; set; }
+        public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options) { }
 
-        protected OrderDbContext( )
-        {
-        }
+
+        public DbSet<Domain.Entities.Orders.Order> Orders => Set<Domain.Entities.Orders.Order>();
+        public DbSet<Item> Items => Set<Item>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
