@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Contracts.Events.Orders
 {
-    internal class OrderCreatedLine
+    public sealed record OrderCreatedLine
     {
+        public string Sku { get; init; } = default!;
+        public int Quantity { get; init; }
     }
+
 }

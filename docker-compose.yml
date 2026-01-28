@@ -1,0 +1,50 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: OrderDb
+    ports:
+      - "5432:5432"
+
+  order-api:
+    build:
+      context: .
+      dockerfile: OrderService/Order.API/Dockerfile
+    container_name: order-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=OrderDb;Username=postgres;Password=12345
+      RabbitMq__Host: rabbitmq
+      RabbitMq__User: guest
+      RabbitMq__Pass: guest
+    depends_on:
+      - rabbitmq
+      - postgres
+    ports:
+      - "5071:8080"
+
+  inventory-api:
+    build:
+      context: .
+      dockerfile: InventoryService/Inventory.API/Dockerfile
+    container_name: inventory-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      RabbitMq__Host: rabbitmq
+      RabbitMq__User: guest
+      RabbitMq__Pass: guest
+    depends_on:
+      - rabbitmq
+    ports:
+      - "5072:8080"
