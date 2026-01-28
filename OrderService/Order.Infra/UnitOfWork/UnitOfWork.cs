@@ -6,9 +6,9 @@ using Order.Infra.Context;
 
 namespace Order.Infra.UnitOfWork;
 
-public sealed class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork
 {
-    private readonly OrderDbContext _db;
+    protected readonly OrderDbContext _db;
     private readonly ILogger<UnitOfWork> _logger;
 
     public UnitOfWork(OrderDbContext db, IOrderRepository orders, ILogger<UnitOfWork> logger)
