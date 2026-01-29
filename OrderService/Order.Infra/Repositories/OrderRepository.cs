@@ -24,6 +24,14 @@ public sealed class OrderRepository : IOrderRepository
         _logger.LogInformation("Order staged for insertion (not committed yet).");
     }
 
+    public async Task<Domain.Entities.Orders.Order?> GetByIdForUpdateAsync(Guid orderId, CancellationToken ct)
+    {
+        return await _db.Orders
+            .Include(o => o.Lines)
+            .Include(o => o.StockFailures)
+            .FirstOrDefaultAsync(o => o.Id == orderId, ct);
+    }
+
     public async Task<Domain.Entities.Orders.Order?> GetById(Guid orderId)
     {
         return await _db.Orders

@@ -12,5 +12,7 @@ namespace Order.Domain.Interfaces.Repositories
     {
         Task AddAsync(Domain.Entities.Orders.Order order, CancellationToken ct);
         Task<Domain.Entities.Orders.Order?> GetById(Guid orderId);
+        Task<Domain.Entities.Orders.Order?> GetByIdForUpdateAsync(Guid orderId, CancellationToken ct);
+
     }
 }
