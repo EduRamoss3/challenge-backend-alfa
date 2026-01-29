@@ -1,4 +1,5 @@
 ﻿using Contracts.Events.Orders;
+using FluentValidation;
 using MassTransit;
 using MediatR;
 using Order.Application.Dto.Orders;
@@ -7,7 +8,7 @@ using Order.Domain.Entities.Orders;
 using Order.Domain.Enums.Orders;
 using Order.Domain.Exceptions;
 using Order.Domain.Interfaces.UnitOfWork;
-using Order.Domain.Records.Orders;
+using Order.Domain.ValueObjects.Orders;
 
 namespace Order.Application.Features.Orders.Add
 {
@@ -15,17 +16,21 @@ namespace Order.Application.Features.Orders.Add
         : IRequestHandler<AddOrderCommand, AddOrderResultDto>
     {
         private readonly IUnitOfWork _uow;
+        private readonly IValidator<AddOrderCommand> _validator;
 
         private readonly IPublishEndpoint _publish;
 
-        public AddOrderCommandHandler(IUnitOfWork uow, IPublishEndpoint publish)
+        public AddOrderCommandHandler(IUnitOfWork uow, IPublishEndpoint publish, IValidator<AddOrderCommand> validator)
         {
+            _validator = validator;
             _uow = uow;
             _publish = publish;
         }
 
         public async Task<AddOrderResultDto> Handle(AddOrderCommand request, CancellationToken ct)
         {
+            await _validator.ValidateAndThrowAsync(request, ct);
+
             var lines = request.Payload.Lines.Select(orderLine =>
                 new OrderLine(
                     new Sku(orderLine.Sku),

@@ -4,7 +4,7 @@ using Order.Application.Dto.Orders;
 namespace Order.Application.Features.Orders.Add
 {
    
-    internal sealed class AddOrderCommandValidation : AbstractValidator<AddOrderCommand>
+    public sealed class AddOrderCommandValidation : AbstractValidator<AddOrderCommand>
     {
         public AddOrderCommandValidation()
         {

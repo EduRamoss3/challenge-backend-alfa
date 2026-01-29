@@ -2,7 +2,7 @@
 using Inventory.Domain.Interfaces.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Order.Infra.Context;
+using Inventory.Infra.Context;
 
 
 namespace Inventory.Infra.UnitOfWork;

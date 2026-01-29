@@ -1,7 +1,7 @@
 ﻿using Inventory.Domain.Entities;
-using Inventory.Domain.Repositories;
+using Inventory.Domain.Interfaces.Repositories;
+using Inventory.Infra.Context;
 using Microsoft.EntityFrameworkCore;
-using Order.Infra.Context;
 
 namespace Inventory.Infra.Repositories
 {

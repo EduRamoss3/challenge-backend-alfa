@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Order.Domain.Entities.Orders;
-using Order.Domain.Records.Orders;
+using Order.Domain.ValueObjects.Orders;
 
 namespace Order.Infra.Context.Configurations
 {

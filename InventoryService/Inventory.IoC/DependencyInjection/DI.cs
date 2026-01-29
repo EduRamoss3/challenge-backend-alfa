@@ -5,8 +5,9 @@ using Inventory.Infra.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Order.Infra.Context;
 using MassTransit;
+using Inventory.Application.Features.Stock.Validate;
+using Inventory.Infra.Context;
 
 namespace Inventory.IoC.DependencyInjection
 {
@@ -18,7 +19,7 @@ namespace Inventory.IoC.DependencyInjection
                 options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IInventoryItemStockRepository, InventoryItemStockRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-       //     services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AddOrderCommand).Assembly));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ValidateOrderStockCommandValidator).Assembly));
             services.AddMassTransit(x =>
             {
                 x.SetKebabCaseEndpointNameFormatter();

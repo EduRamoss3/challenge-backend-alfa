@@ -1,7 +1,7 @@
 ﻿using Inventory.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Order.Infra.Context
+namespace Inventory.Infra.Context
 {
     public sealed class InventoryDbContext : DbContext
     {

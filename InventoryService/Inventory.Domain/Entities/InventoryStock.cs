@@ -1,4 +1,5 @@
-﻿using Inventory.Domain.Exceptions;
+﻿using Inventory.Domain.Entities.Base;
+using Inventory.Domain.Exceptions;
 using Inventory.Domain.ValueObjects;
 
 namespace Inventory.Domain.Entities;
