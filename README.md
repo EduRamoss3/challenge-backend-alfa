@@ -9,6 +9,7 @@ A solução utiliza **Entity Framework Core** para persistência, **FluentValida
 
 - **.NET 9**
 - **Microsserviços**
+- **PostgreSQL**
 - **DDD (Domain-Driven Design)**
   - Domínio rico, regras encapsuladas, entidades/Value Objects, boundaries claros
 - **CQRS**
