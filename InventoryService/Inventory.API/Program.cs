@@ -40,6 +40,8 @@ using (var scope = app.Services.CreateScope())
         await db.Database.MigrateAsync();
     else
         await db.Database.EnsureCreatedAsync();
+
+    await db.SeedTestItemsAsync();
 }
 
 app.UseHttpsRedirection();
