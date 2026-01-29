@@ -32,7 +32,7 @@ namespace Order.IoC.DependencyInjection
                 services.AddMassTransit(x =>
             {
                 x.SetKebabCaseEndpointNameFormatter();
-
+               
                 x.AddConsumer<InventoryValidatedConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
