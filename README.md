@@ -3,7 +3,6 @@
 Backend em **.NET 9** estruturado em **microsserviços**, aplicando **DDD (Domain-Driven Design)** e **CQRS** para separar responsabilidades de escrita/leitura e manter o domínio coeso e testável.
 
 A solução utiliza **Entity Framework Core** para persistência, **FluentValidation** para validações consistentes e **mensageria com RabbitMQ via MassTransit** para comunicação assíncrona entre serviços, publicação/consumo de eventos e desacoplamento entre componentes.
-
 ---
 
 ## Stack & Conceitos Utilizados
@@ -33,7 +32,7 @@ A solução utiliza **Entity Framework Core** para persistência, **FluentValida
 ---
 
 ##  Configuração
-
+As chaves no appsettings são totalmente fakes, colocadas apenas para mostrar como é o formato da string de conexão.
 Você deve configurar as **connection strings** (e quaisquer variáveis de ambiente necessárias) **seguindo a mesma estrutura** da *fake connection string* definida no `docker-compose.yml`.
 
  Caminho do projeto (raiz):
